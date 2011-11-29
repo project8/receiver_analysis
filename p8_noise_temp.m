@@ -3,7 +3,7 @@
 % calculates the total noise temperature of the project 8 receiver
 % chain in kelvin.  all noise temperatures in kelvin, all gains in
 % dB.
-function temperature = p8_noise_temp()
+function [temperature gain] = p8_noise_temp()
 % convert noise figure to temp
 nf_2_t = @(nf) 290*(10^(nf/10)-1);
 
@@ -66,6 +66,9 @@ coup_nf = 1;
 coup_t = nf_2_t(coup_nf);
 coup_g = -1;
 coup_pw = db_2_pw(coup_g);
+
+gain = nrao_g + quin_g + lorch_g + miteq_g + n_amps*zx60_g + poly_g ...
+       + dcblk_g + aaf_g + coup_g;
 
 % friis equation!
 temperature = nrao_t +...
