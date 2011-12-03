@@ -30,7 +30,7 @@ plot(px,py,px,ry);
 title('Output power vs. input power');
 xlabel('Pin (dBm)');
 ylabel('Pout (dBm)');
-legend('Measured gain curve','Ideal amp','location','north');
+
 
 % now subtract real from ideal to find 1dBCP
 dif = py - ry;
@@ -45,7 +45,14 @@ cp_x = px(end-length(cp_y)+1:end);
 % is the larger value.
 r = roots([qp(1) qp(2) qp(3)+1]);
 
+
 lg = p(2);
 ldr = [pxp(1) pxp(end)];
 cp = max(r);
+
+% now add a line showing the compression point and make the legend.
+line([cp cp],get(gca,'YLim'),'Color','red');
+cp_str = sprintf('1dB input CP = %ddBm',round(cp));
+legend('Measured gain curve','Ideal amp',cp_str,...
+       'location','north');
 end
